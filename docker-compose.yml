@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+    web:
+        image: nginx:latest
+        ports:
+            - "80:80"
+        volumes:
+            - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+            - ./app:/app
+    php:
+        image: php:fpm
+        volumes:
+            - ./app:/app
+            - ./upload.ini:/usr/local/etc/php/conf.d/uploads.ini
+    mysql:
+        image: mariadb:latest
+        environment:
+            MYSQL_ROOT_PASSWORD: 'qwerty'
+            MYSQL_USER: 'test'
+            MYSQL_PASSWORD: 'qwerty'
+            MYSQL_DATABASE: 'qwerty'
+        volumes:
+            - mysqldata:/var/lib/mysql
+        ports:
+            - 3306:3306
+volumes:
+    mysqldata: {}
